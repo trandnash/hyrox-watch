@@ -4,12 +4,12 @@ import fs from "node:fs";
 import nodemailer from "nodemailer";
 
 const URL = "https://hyrox.com/event/hyrox-houston-26-27/";
-const AVAILABLE = /buy tickets|register now|select tickets|add to cart/i; // page must match this
-const SOLD_OUT = /sold out|waitlist|coming soon|not yet on sale/i;       // and must NOT match this
+const AVAILABLE = /buy tickets here/i; // the yellow button that appears when tickets go on sale
+const SOLD_OUT = null; // optional: a pattern that vetoes a match, e.g. /sold out/i
 
 const STATE = ".state/last";
 const html = await (await fetch(URL, { headers: { "user-agent": "Mozilla/5.0" } })).text();
-const available = AVAILABLE.test(html) && !SOLD_OUT.test(html);
+const available = AVAILABLE.test(html) && !(SOLD_OUT && SOLD_OUT.test(html));
 const was = fs.existsSync(STATE) && fs.readFileSync(STATE, "utf8") === "1";
 console.log(available ? "AVAILABLE" : "not available");
 
