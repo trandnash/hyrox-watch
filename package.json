@@ -1,0 +1,7 @@
+{
+  "name": "hyrox-watch",
+  "private": true,
+  "type": "module",
+  "scripts": { "check": "node check.js" },
+  "dependencies": { "nodemailer": "^6.9.16" }
+}
